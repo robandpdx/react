@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       prerelease_commit_sha:
-        required: true
+        required: false
 env:
   CIRCLE_CI_API_TOKEN: xxxx6989
   NPM_TOKEN: xxxxJBvP
