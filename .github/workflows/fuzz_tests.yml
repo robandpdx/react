@@ -1,0 +1,27 @@
+name: facebook/react/fuzz_tests
+on:
+  schedule:
+  - cron: 0 * * * *
+#   # 'filters' was not transformed because there is no suitable equivalent in GitHub Actions
+  workflow_dispatch:
+    inputs:
+      prerelease_commit_sha:
+        required: true
+env:
+  CIRCLE_CI_API_TOKEN: xxxx6989
+  NPM_TOKEN: xxxxJBvP
+jobs:
+  test_fuzz:
+    if: ${{ !(${{ inputs.prerelease_commit_sha }}) }}
+    runs-on: ubuntu-latest
+    container:
+      image: cimg/openjdk:18.0-node
+    env:
+      TZ: "/usr/share/zoneinfo/America/Los_Angeles"
+    steps:
+    - uses: actions/checkout@v4.1.0
+    - uses: "./.github/actions/setup_node_modules"
+    - name: Run fuzz tests
+      run: |-
+        FUZZ_TEST_SEED=$RANDOM yarn test fuzz --ci
+        FUZZ_TEST_SEED=$RANDOM yarn test --prod fuzz --ci
