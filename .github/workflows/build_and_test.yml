@@ -11,8 +11,6 @@ jobs:
   yarn_flow:
     if: inputs.prerelease_commit_sha == '' && github.ref != 'refs/heads/builds/facebook-www'
     runs-on: ubuntu-latest
-    container:
-      image: node:18-bullseye
     env:
       TZ: "/usr/share/zoneinfo/America/Los_Angeles"
     steps:
