@@ -63,6 +63,7 @@ jobs:
     env:
       TZ: "/usr/share/zoneinfo/America/Los_Angeles"
     strategy:
+      fail-fast: false
       matrix:
         args:
         - "-r=stable --env=development"
@@ -156,6 +157,7 @@ jobs:
     env:
       TZ: "/usr/share/zoneinfo/America/Los_Angeles"
     strategy:
+      fail-fast: false
       matrix:
         args:
         - "-r=stable --env=development"
