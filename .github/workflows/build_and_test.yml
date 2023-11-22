@@ -11,23 +11,25 @@ jobs:
   yarn_flow:
     if: inputs.prerelease_commit_sha == '' && github.ref != 'refs/heads/builds/facebook-www'
     runs-on: ubuntu-latest
-    container:
-      image: cimg/openjdk:18.0-node
     env:
       TZ: "/usr/share/zoneinfo/America/Los_Angeles"
     steps:
     - uses: actions/checkout@v4.1.0
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
     - uses: "./.github/actions/setup_node_modules"
     - run: node ./scripts/tasks/flow-ci
   check_generated_fizz_runtime:
     if: inputs.prerelease_commit_sha == '' && github.ref != 'refs/heads/builds/facebook-www'
     runs-on: ubuntu-latest
-    container:
-      image: cimg/openjdk:18.0-node
     env:
       TZ: "/usr/share/zoneinfo/America/Los_Angeles"
     steps:
     - uses: actions/checkout@v4.1.0
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
     - uses: actions/download-artifact@v3.0.2
       with:
         path: build
@@ -39,12 +41,13 @@ jobs:
   yarn_lint:
     if: inputs.prerelease_commit_sha == '' && github.ref != 'refs/heads/builds/facebook-www'
     runs-on: ubuntu-latest
-    container:
-      image: cimg/openjdk:18.0-node
     env:
       TZ: "/usr/share/zoneinfo/America/Los_Angeles"
     steps:
     - uses: actions/checkout@v4.1.0
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
     - uses: "./.github/actions/setup_node_modules"
     - run: node ./scripts/prettier/index
     - run: node ./scripts/tasks/eslint
@@ -54,8 +57,6 @@ jobs:
   yarn_test:
     if: inputs.prerelease_commit_sha == '' && github.ref != 'refs/heads/builds/facebook-www'
     runs-on: ubuntu-latest
-    container:
-      image: cimg/openjdk:18.0-node
     env:
       TZ: "/usr/share/zoneinfo/America/Los_Angeles"
     strategy:
@@ -77,17 +78,21 @@ jobs:
         - "-r=experimental --env=development --persistent"
     steps:
     - uses: actions/checkout@v4.1.0
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
     - uses: "./.github/actions/setup_node_modules"
     - run: yarn test ${{ matrix.args }} --ci
   yarn_build:
     if: inputs.prerelease_commit_sha == '' && github.ref != 'refs/heads/builds/facebook-www'
     runs-on: ubuntu-latest
-    container:
-      image: cimg/openjdk:18.0-node
     env:
       TZ: "/usr/share/zoneinfo/America/Los_Angeles"
     steps:
     - uses: actions/checkout@v4.1.0
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
     - uses: "./.github/actions/setup_node_modules"
     - run: yarn build
     - uses: actions/upload-artifact@v3.1.3
@@ -96,12 +101,13 @@ jobs:
   scrape_warning_messages:
     if: inputs.prerelease_commit_sha == '' && github.ref != 'refs/heads/builds/facebook-www'
     runs-on: ubuntu-latest
-    container:
-      image: cimg/openjdk:18.0-node
     env:
       TZ: "/usr/share/zoneinfo/America/Los_Angeles"
     steps:
     - uses: actions/checkout@v4.1.0
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
     - uses: "./.github/actions/setup_node_modules"
     - run: |-
         mkdir -p ./build
@@ -112,8 +118,6 @@ jobs:
   process_artifacts_combined:
     if: inputs.prerelease_commit_sha == ''
     runs-on: ubuntu-latest
-    container:
-      image: cimg/openjdk:18.0-node
     needs:
     - scrape_warning_messages
     - yarn_build
@@ -121,6 +125,9 @@ jobs:
       TZ: "/usr/share/zoneinfo/America/Los_Angeles"
     steps:
     - uses: actions/checkout@v4.1.0
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
     - uses: actions/download-artifact@v3.0.2
       with:
         path: "."
@@ -137,8 +144,6 @@ jobs:
   yarn_test_build:
     if: inputs.prerelease_commit_sha == ''
     runs-on: ubuntu-latest
-    container:
-      image: cimg/openjdk:18.0-node
     needs:
     - yarn_build
     env:
@@ -153,6 +158,9 @@ jobs:
         - "--project=devtools -r=experimental"
     steps:
     - uses: actions/checkout@v4.1.0
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
     - uses: actions/download-artifact@v3.0.2
       with:
         path: "."
@@ -161,12 +169,13 @@ jobs:
   download_base_build_for_sizebot:
     if: inputs.prerelease_commit_sha == '' && github.ref != 'refs/heads/main' && github.ref != 'refs/heads/builds/facebook-www'
     runs-on: ubuntu-latest
-    container:
-      image: cimg/openjdk:18.0-node
     env:
       TZ: "/usr/share/zoneinfo/America/Los_Angeles"
     steps:
     - uses: actions/checkout@v4.1.0
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
     - uses: "./.github/actions/setup_node_modules"
     - name: Download artifacts for base revision
       run: |-
@@ -182,8 +191,6 @@ jobs:
   sizebot:
     if: inputs.prerelease_commit_sha == '' && github.ref != 'refs/heads/main'
     runs-on: ubuntu-latest
-    container:
-      image: cimg/openjdk:18.0-node
     needs:
     - download_base_build_for_sizebot
     - yarn_build
@@ -191,6 +198,9 @@ jobs:
       TZ: "/usr/share/zoneinfo/America/Los_Angeles"
     steps:
     - uses: actions/checkout@v4.1.0
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
     - uses: actions/download-artifact@v3.0.2
       with:
         path: "."
@@ -200,14 +210,15 @@ jobs:
   yarn_lint_build:
     if: inputs.prerelease_commit_sha == ''
     runs-on: ubuntu-latest
-    container:
-      image: cimg/openjdk:18.0-node
     needs:
     - yarn_build
     env:
       TZ: "/usr/share/zoneinfo/America/Los_Angeles"
     steps:
     - uses: actions/checkout@v4.1.0
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
     - uses: actions/download-artifact@v3.0.2
       with:
         path: "."
@@ -216,14 +227,15 @@ jobs:
   yarn_check_release_dependencies:
     if: inputs.prerelease_commit_sha == ''
     runs-on: ubuntu-latest
-    container:
-      image: cimg/openjdk:18.0-node
     needs:
     - yarn_build
     env:
       TZ: "/usr/share/zoneinfo/America/Los_Angeles"
     steps:
     - uses: actions/checkout@v4.1.0
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
     - uses: actions/download-artifact@v3.0.2
       with:
         path: "."
@@ -232,14 +244,15 @@ jobs:
   check_error_codes:
     if: inputs.prerelease_commit_sha == ''
     runs-on: ubuntu-latest
-    container:
-      image: cimg/openjdk:18.0-node
     needs:
     - yarn_build
     env:
       TZ: "/usr/share/zoneinfo/America/Los_Angeles"
     steps:
     - uses: actions/checkout@v4.1.0
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
     - uses: actions/download-artifact@v3.0.2
       with:
         path: build
@@ -251,14 +264,15 @@ jobs:
   RELEASE_CHANNEL_stable_yarn_test_dom_fixtures:
     if: inputs.prerelease_commit_sha == ''
     runs-on: ubuntu-latest
-    container:
-      image: cimg/openjdk:18.0-node
     needs:
     - yarn_build
     env:
       TZ: "/usr/share/zoneinfo/America/Los_Angeles"
     steps:
     - uses: actions/checkout@v4.1.0
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
     - uses: actions/download-artifact@v3.0.2
       with:
         path: "."
@@ -286,14 +300,15 @@ jobs:
   build_devtools_and_process_artifacts:
     if: inputs.prerelease_commit_sha == ''
     runs-on: ubuntu-latest
-    container:
-      image: cimg/openjdk:18.0-node
     needs:
     - yarn_build
     env:
       TZ: "/usr/share/zoneinfo/America/Los_Angeles"
     steps:
     - uses: actions/checkout@v4.1.0
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
     - uses: actions/download-artifact@v3.0.2
       with:
         path: "."
@@ -307,14 +322,15 @@ jobs:
   run_devtools_e2e_tests:
     if: inputs.prerelease_commit_sha == ''
     runs-on: ubuntu-latest
-    container:
-      image: cimg/openjdk:18.0-node
     needs:
     - build_devtools_and_process_artifacts
     env:
       TZ: "/usr/share/zoneinfo/America/Los_Angeles"
     steps:
     - uses: actions/checkout@v4.1.0
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
     - uses: actions/download-artifact@v3.0.2
       with:
         path: "."
