@@ -19,10 +19,7 @@ jobs:
       with:
         node-version: '18'
         cache: 'yarn'
-    #- uses: "./.github/actions/setup_node_modules"
-    - run: yarn install --frozen-lockfile
-      env:
-        ELECTRON_SKIP_BINARY_DOWNLOAD: 1
+    - uses: "./.github/actions/setup_node_modules"
     - run: node ./scripts/tasks/flow-ci
   check_generated_fizz_runtime:
     if: inputs.prerelease_commit_sha == '' && github.ref != 'refs/heads/builds/facebook-www'
