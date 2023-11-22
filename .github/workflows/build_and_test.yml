@@ -18,6 +18,7 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: '18'
+        cache: 'yarn'
     - uses: "./.github/actions/setup_node_modules"
     - run: node ./scripts/tasks/flow-ci
   check_generated_fizz_runtime:
@@ -30,6 +31,7 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: '18'
+        cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
         path: build
@@ -48,6 +50,7 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: '18'
+        cache: 'yarn'
     - uses: "./.github/actions/setup_node_modules"
     - run: node ./scripts/prettier/index
     - run: node ./scripts/tasks/eslint
@@ -81,6 +84,7 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: '18'
+        cache: 'yarn'
     - uses: "./.github/actions/setup_node_modules"
     - run: yarn test ${{ matrix.args }} --ci
   yarn_build:
@@ -93,6 +97,7 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: '18'
+        cache: 'yarn'
     - uses: "./.github/actions/setup_node_modules"
     - run: yarn build
     - uses: actions/upload-artifact@v3.1.3
@@ -108,6 +113,7 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: '18'
+        cache: 'yarn'
     - uses: "./.github/actions/setup_node_modules"
     - run: |-
         mkdir -p ./build
@@ -128,6 +134,7 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: '18'
+        cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
         path: "."
@@ -161,6 +168,7 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: '18'
+        cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
         path: "."
@@ -176,6 +184,7 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: '18'
+        cache: 'yarn'
     - uses: "./.github/actions/setup_node_modules"
     - name: Download artifacts for base revision
       run: |-
@@ -201,6 +210,7 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: '18'
+        cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
         path: "."
@@ -219,6 +229,7 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: '18'
+        cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
         path: "."
@@ -236,6 +247,7 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: '18'
+        cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
         path: "."
@@ -253,6 +265,7 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: '18'
+        cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
         path: build
@@ -273,6 +286,7 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: '18'
+        cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
         path: "."
@@ -309,6 +323,7 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: '18'
+        cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
         path: "."
@@ -331,6 +346,7 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: '18'
+        cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
         path: "."
