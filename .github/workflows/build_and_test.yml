@@ -17,7 +17,7 @@ jobs:
     - uses: actions/checkout@v4.1.0
     - uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '16'
         cache: 'yarn'
     - uses: "./.github/actions/setup_node_modules"
     - run: node ./scripts/tasks/flow-ci
@@ -30,7 +30,7 @@ jobs:
     - uses: actions/checkout@v4.1.0
     - uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '16'
         cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
@@ -49,7 +49,7 @@ jobs:
     - uses: actions/checkout@v4.1.0
     - uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '16'
         cache: 'yarn'
     - uses: "./.github/actions/setup_node_modules"
     - run: node ./scripts/prettier/index
@@ -83,7 +83,7 @@ jobs:
     - uses: actions/checkout@v4.1.0
     - uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '16'
         cache: 'yarn'
     - uses: "./.github/actions/setup_node_modules"
     - run: yarn test ${{ matrix.args }} --ci
@@ -96,7 +96,7 @@ jobs:
     - uses: actions/checkout@v4.1.0
     - uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '16'
         cache: 'yarn'
     - uses: "./.github/actions/setup_node_modules"
     - run: yarn build
@@ -112,7 +112,7 @@ jobs:
     - uses: actions/checkout@v4.1.0
     - uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '16'
         cache: 'yarn'
     - uses: "./.github/actions/setup_node_modules"
     - run: |-
@@ -133,7 +133,7 @@ jobs:
     - uses: actions/checkout@v4.1.0
     - uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '16'
         cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
@@ -167,7 +167,7 @@ jobs:
     - uses: actions/checkout@v4.1.0
     - uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '16'
         cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
@@ -183,7 +183,7 @@ jobs:
     - uses: actions/checkout@v4.1.0
     - uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '16'
         cache: 'yarn'
     - uses: "./.github/actions/setup_node_modules"
     - name: Download artifacts for base revision
@@ -209,7 +209,7 @@ jobs:
     - uses: actions/checkout@v4.1.0
     - uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '16'
         cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
@@ -228,7 +228,7 @@ jobs:
     - uses: actions/checkout@v4.1.0
     - uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '16'
         cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
@@ -246,7 +246,7 @@ jobs:
     - uses: actions/checkout@v4.1.0
     - uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '16'
         cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
@@ -264,7 +264,7 @@ jobs:
     - uses: actions/checkout@v4.1.0
     - uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '16'
         cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
@@ -285,7 +285,7 @@ jobs:
     - uses: actions/checkout@v4.1.0
     - uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '16'
         cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
@@ -322,7 +322,7 @@ jobs:
     - uses: actions/checkout@v4.1.0
     - uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '16'
         cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
@@ -345,7 +345,7 @@ jobs:
     - uses: actions/checkout@v4.1.0
     - uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '16'
         cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
