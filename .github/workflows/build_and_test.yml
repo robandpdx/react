@@ -140,7 +140,8 @@ jobs:
         cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
-        path: "."
+        name: yarn-build
+        path: build
     - uses: "./.github/actions/setup_node_modules"
     - run: echo "$GITHUB_SHA" >> build/COMMIT_SHA
     - run: tar -zcvf ./build.tgz ./build
@@ -221,7 +222,8 @@ jobs:
         cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
-        path: "."
+        name: yarn-build
+        path: build
     - run: echo "$GITHUB_SHA" >> build/COMMIT_SHA
     - uses: "./.github/actions/setup_node_modules"
     - run: node ./scripts/tasks/danger
@@ -356,6 +358,9 @@ jobs:
         node-version: '16'
         cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
+      with:
+        name: devtools
+        path: build
     - uses: "./.github/actions/setup_node_modules"
     - name: Playwright install deps
       run: |-
