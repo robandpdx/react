@@ -60,6 +60,7 @@ jobs:
   yarn_test:
     if: inputs.prerelease_commit_sha == '' && github.ref != 'refs/heads/builds/facebook-www'
     runs-on: ubuntu-latest
+    container: cimg/openjdk:18.0-node
     env:
       TZ: "/usr/share/zoneinfo/America/Los_Angeles"
     strategy:
