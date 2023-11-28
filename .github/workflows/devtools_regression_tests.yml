@@ -2,7 +2,9 @@ name: facebook/react/devtools_regression_tests
 on:
   schedule:
   - cron: 0 0 * * *
-#   # 'filters' was not transformed because there is no suitable equivalent in GitHub Actions
+  push:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       prerelease_commit_sha:

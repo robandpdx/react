@@ -2,6 +2,9 @@ name: facebook/react/fuzz_tests
 on:
   schedule:
   - cron: 0 * * * *
+  push:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       prerelease_commit_sha:
