@@ -11,18 +11,20 @@ env:
   CIRCLE_CI_API_TOKEN: xxxx6989
   NPM_TOKEN: xxxxJBvP
 jobs:
-  publish_prerelease:
-    if: ${{ !(${{ inputs.prerelease_commit_sha }}) }}
+  publish_to_canary_channel:
+    if: inputs.prerelease_commit_sha == ''
     runs-on: ubuntu-latest
-    container:
-      image: cimg/openjdk:18.0-node
     env:
       TZ: "/usr/share/zoneinfo/America/Los_Angeles"
-      commit_sha: "${{ github.event.pull_request.head.sha }}"
+      commit_sha: "${{ github.sha }}"
       release_channel: stable
       dist_tag: canary,next
     steps:
     - uses: actions/checkout@v4.1.0
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '16'
+        cache: 'yarn'
     - uses: "./.github/actions/setup_node_modules"
     - name: Run publish script
       run: |-
@@ -31,20 +33,22 @@ jobs:
         scripts/release/prepare-release-from-ci.js --skipTests -r ${{ env.release_channel }} --commit=${{ env.commit_sha }}
         cp ./scripts/release/ci-npmrc ~/.npmrc
         scripts/release/publish.js --ci --tags ${{ env.dist_tag }}
-  publish_prerelease_1:
-    if: ${{ !(${{ inputs.prerelease_commit_sha }}) }}
+  publish_to_experimental_channel:
+    if: inputs.prerelease_commit_sha == ''
     runs-on: ubuntu-latest
-    container:
-      image: cimg/openjdk:18.0-node
     needs:
-    - Publish to Canary channel
+    - publish_to_canary_channel
     env:
       TZ: "/usr/share/zoneinfo/America/Los_Angeles"
-      commit_sha: "${{ github.event.pull_request.head.sha }}"
+      commit_sha: "${{ github.sha }}"
       release_channel: experimental
       dist_tag: experimental
     steps:
     - uses: actions/checkout@v4.1.0
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '16'
+        cache: 'yarn'
     - uses: "./.github/actions/setup_node_modules"
     - name: Run publish script
       run: |-
