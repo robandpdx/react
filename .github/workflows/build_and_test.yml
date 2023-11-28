@@ -1,12 +1,12 @@
 name: facebook/react/build_and_test
 on:
+  pull_request:
+    branches:
+      - '!builds/facebook-www'
   workflow_dispatch:
     inputs:
       prerelease_commit_sha:
         required: false
-env:
-  CIRCLE_CI_API_TOKEN: xxxx6989
-  NPM_TOKEN: xxxxJBvP
 jobs:
   yarn_flow:
     if: inputs.prerelease_commit_sha == '' && github.ref != 'refs/heads/builds/facebook-www'
@@ -60,9 +60,6 @@ jobs:
   yarn_test:
     if: inputs.prerelease_commit_sha == '' && github.ref != 'refs/heads/builds/facebook-www'
     runs-on: ubuntu-latest
-    container: 
-      image: cimg/openjdk:18.0-node
-      options: --user root
     env:
       TZ: "/usr/share/zoneinfo/America/Los_Angeles"
     strategy:
