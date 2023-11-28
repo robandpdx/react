@@ -6,21 +6,20 @@ on:
   workflow_dispatch:
     inputs:
       prerelease_commit_sha:
-        required: true
-env:
-  CIRCLE_CI_API_TOKEN: xxxx6989
-  NPM_TOKEN: xxxxJBvP
+        required: false
 jobs:
   download_build:
-    if: ${{ !(${{ inputs.prerelease_commit_sha }}) }}
+    if: inputs.prerelease_commit_sha ==''
     runs-on: ubuntu-latest
-    container:
-      image: cimg/openjdk:18.0-node
     env:
       TZ: "/usr/share/zoneinfo/America/Los_Angeles"
-      revision: "${{ github.event.pull_request.head.sha }}"
+      revision: "${{ github.sha }}"
     steps:
     - uses: actions/checkout@v4.1.0
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '16'
+        cache: 'yarn'
     - uses: "./.github/actions/setup_node_modules"
     - name: Download artifacts for revision
       run: |-
@@ -31,16 +30,18 @@ jobs:
       with:
         path: "./build"
   build_devtools_and_process_artifacts:
-    if: ${{ !(${{ inputs.prerelease_commit_sha }}) }}
+    if: inputs.prerelease_commit_sha ==''
     runs-on: ubuntu-latest
-    container:
-      image: cimg/openjdk:18.0-node
     needs:
     - download_build
     env:
       TZ: "/usr/share/zoneinfo/America/Los_Angeles"
     steps:
     - uses: actions/checkout@v4.1.0
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '16'
+        cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
         path: "."
@@ -52,10 +53,8 @@ jobs:
       with:
         path: "./build/devtools.tgz"
   run_devtools_tests_for_versions:
-    if: ${{ !(${{ inputs.prerelease_commit_sha }}) }}
+    if: inputs.prerelease_commit_sha ==''
     runs-on: ubuntu-latest
-    container:
-      image: cimg/openjdk:18.0-node
     needs:
     - build_devtools_and_process_artifacts
     env:
@@ -70,6 +69,10 @@ jobs:
         - '18.0'
     steps:
     - uses: actions/checkout@v4.1.0
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '16'
+        cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
         path: "."
@@ -77,10 +80,8 @@ jobs:
     - run: "./scripts/circleci/download_devtools_regression_build.js ${{ matrix.version }} --replaceBuild"
     - run: node ./scripts/jest/jest-cli.js --build --project devtools --release-channel=experimental --reactVersion ${{ matrix.version }} --ci
   run_devtools_e2e_tests_for_versions:
-    if: ${{ !(${{ inputs.prerelease_commit_sha }}) }}
+    if: inputs.prerelease_commit_sha ==''
     runs-on: ubuntu-latest
-    container:
-      image: cimg/openjdk:18.0-node
     needs:
     - build_devtools_and_process_artifacts
     env:
@@ -95,6 +96,10 @@ jobs:
         - '18.0'
     steps:
     - uses: actions/checkout@v4.1.0
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '16'
+        cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
         path: "."
