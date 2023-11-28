@@ -104,7 +104,7 @@ jobs:
     - uses: actions/upload-artifact@v3.1.3
       with:
         name: yarn-build
-        path: "./build"
+        path: build
   scrape_warning_messages:
     if: inputs.prerelease_commit_sha == '' && github.ref != 'refs/heads/builds/facebook-www'
     runs-on: ubuntu-latest
@@ -123,7 +123,7 @@ jobs:
     - uses: actions/upload-artifact@v3.1.3
       with:
         name: yarn-build
-        path: "./build"
+        path: build
   process_artifacts_combined:
     if: inputs.prerelease_commit_sha == ''
     runs-on: ubuntu-latest
@@ -178,6 +178,7 @@ jobs:
     - uses: actions/download-artifact@v3.0.2
       with:
         name: yarn-build
+        path: build
     - uses: "./.github/actions/setup_node_modules"
     - run: yarn test --build ${{ matrix.args }} --ci
   download_base_build_for_sizebot:
@@ -239,7 +240,8 @@ jobs:
         cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
-        path: "."
+        name: yarn-build
+        path: build
     - uses: "./.github/actions/setup_node_modules"
     - run: yarn lint-build
   yarn_check_release_dependencies:
@@ -257,7 +259,8 @@ jobs:
         cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
-        path: "."
+        name: yarn-build
+        path: build
     - uses: "./.github/actions/setup_node_modules"
     - run: yarn check-release-dependencies
   check_error_codes:
@@ -275,6 +278,7 @@ jobs:
         cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
+        name: yarn-build
         path: build
     - uses: "./.github/actions/setup_node_modules"
     - name: Search build artifacts for unminified errors
@@ -297,6 +301,7 @@ jobs:
     - uses: actions/download-artifact@v3.0.2
       with:
         name: yarn-build
+        path: build
     - uses: "./.github/actions/setup_node_modules"
     - name: Install dependencies in fixtures/dom
       run: yarn install --frozen-lockfile --cache-folder `yarn cache dir`
@@ -327,7 +332,8 @@ jobs:
         cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
       with:
-        path: "."
+        name: yarn-build
+        path: build
     - uses: "./.github/actions/setup_node_modules"
     - run: "./scripts/circleci/pack_and_store_devtools_artifacts.sh"
       env:
@@ -350,8 +356,6 @@ jobs:
         node-version: '16'
         cache: 'yarn'
     - uses: actions/download-artifact@v3.0.2
-      with:
-        path: "."
     - uses: "./.github/actions/setup_node_modules"
     - name: Playwright install deps
       run: |-
