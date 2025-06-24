@@ -136,6 +136,10 @@ describe('Store component filters', () => {
 
   // @reactVersion >= 16.0
   it('should filter Suspense', async () => {
+    if (typeof React.Suspense === 'undefined') {
+      // Suspense is not supported in this React version
+      return;
+    }
     const Suspense = React.Suspense;
     await actAsync(async () =>
       render(
