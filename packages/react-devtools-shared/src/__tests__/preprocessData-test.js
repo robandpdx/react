@@ -111,6 +111,11 @@ describe('Timeline profiler', () => {
       ReactDOMClient = require('react-dom/client');
       Scheduler = require('scheduler');
 
+      // Patch Scheduler.log if it does not exist
+      if (typeof Scheduler.log !== 'function') {
+        Scheduler.log = () => {};
+      }
+
       const InternalTestUtils = require('internal-test-utils');
       assertLog = InternalTestUtils.assertLog;
       waitFor = InternalTestUtils.waitFor;
