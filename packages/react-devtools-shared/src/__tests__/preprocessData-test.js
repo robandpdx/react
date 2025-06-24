@@ -1,3 +1,5 @@
+// Use the mock scheduler for test helpers like unstable_clearLog
+jest.mock('scheduler', () => require('scheduler/unstable_mock'));
 /**
  * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
